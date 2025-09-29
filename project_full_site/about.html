@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <title>МО дегеніміз</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    body, html { margin:0; padding:0; height:100%; overflow-x:hidden; }
+    #bgCanvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
+  </style>
+</head>
+<body class="text-white">
+
+  <!-- 3D фон -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Навигация -->
+  <nav class="absolute top-0 left-0 w-full p-6 flex justify-between items-center z-10">
+    <a href="index.html" class="text-2xl font-bold">ML & Security</a>
+    <div class="space-x-6">
+      <a href="about.html" class="text-yellow-300 font-semibold">МО дегеніміз</a>
+      <a href="security.html" class="hover:text-yellow-300">Қауіпсіздік</a>
+      <a href="role.html" class="hover:text-yellow-300">Рөлі</a>
+      <a href="methods.html" class="hover:text-yellow-300">Әдістер</a>
+      <a href="risks.html" class="hover:text-yellow-300">Тәуекелдер</a>
+      <a href="examples.html" class="hover:text-yellow-300">Мысалдар</a>
+      <a href="future.html" class="hover:text-yellow-300">Болашақ</a>
+      <a href="contact.html" class="hover:text-yellow-300">Байланыс</a>
+    </div>
+  </nav>
+
+  <!-- Контент -->
+  <main class="max-w-5xl mx-auto px-6 py-32">
+    <h1 data-aos="zoom-in" class="text-5xl font-bold text-center mb-12">МО дегеніміз?</h1>
+    <div data-aos="fade-up" class="bg-black bg-opacity-50 p-8 rounded-xl shadow-lg">
+      <p class="text-lg leading-relaxed mb-6">
+        Машиналық оқыту (МО) — бұл жасанды интеллектінің саласы, ол компьютерлерге тәжірибе арқылы үйренуге мүмкіндік береді. 
+        МО-да алгоритмдер үлкен деректер жиынтығынан үлгілерді анықтап, болашақтағы нәтижелерді болжай алады.
+      </p>
+      <p data-aos="fade-left" class="text-lg leading-relaxed mb-6">
+        МО негізгі мақсаты — адам араласуын азайтып, автоматтандырылған шешім қабылдау жүйелерін құру.
+        Ол қаржы, медицина, киберқауіпсіздік, өндіріс және басқа салаларда қолданылады.
+      </p>
+      <p data-aos="fade-right" class="text-lg leading-relaxed">
+        Желілік қауіпсіздікте МО қолдану — жаңа шабуыл түрлерін анықтауға, пайдаланушылардың әрекеттерін талдауға және аномалияларды табуға мүмкіндік береді.
+      </p>
+    </div>
+  </main>
+
+  <!-- Футер -->
+  <footer class="bg-black bg-opacity-70 py-6 text-center">
+    <p>© 2025 Машиналық оқыту және желілік қауіпсіздік</p>
+  </footer>
+
+  <!-- Музыка плеер -->
+  <audio id="bg-music" loop autoplay>
+    <source src="music.mp3/music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Музыка батырмасы -->
+  <button id="music-btn" class="fixed bottom-6 right-6 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full shadow-lg z-50">
+    🔊 Музыка ойнап тұр
+  </button>
+
+  <!-- AOS -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init();</script>
+
+  <!-- Three.js фон -->
+  <script>
+    const canvas = document.getElementById("bgCanvas");
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({canvas});
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    const geometry = new THREE.SphereGeometry(15, 32, 32);
+    const material = new THREE.MeshBasicMaterial({color: 0x00ffcc, wireframe:true});
+    const sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);
+
+    camera.position.z = 40;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      sphere.rotation.x += 0.005;
+      sphere.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener("resize", () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Музыка батырмасы функционалы
+    const music = document.getElementById("bg-music");
+    const btn = document.getElementById("music-btn");
+    let playing = true;
+
+    btn.addEventListener("click", () => {
+      if (playing) {
+        music.pause();
+        btn.textContent = "🔈 Музыка өшірулі";
+      } else {
+        music.play();
+        btn.textContent = "🔊 Музыка ойнап тұр";
+      }
+      playing = !playing;
+    });
+  </script>
+
+</body>
+</html>

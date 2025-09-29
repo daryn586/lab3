@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <title>Қауіпсіздік | ML & Security</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: linear-gradient(135deg,#0f172a,#1e293b,#334155); color:white; }
+    .fade-in { animation: fadeIn 1.5s ease forwards; opacity:0; }
+    @keyframes fadeIn { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+    .card { background: rgba(255,255,255,0.1); padding:1.5rem; border-radius:1rem; margin-bottom:1.5rem; }
+  </style>
+</head>
+<body>
+
+  <!-- Навигация -->
+  <nav class="bg-blue-900 bg-opacity-80 p-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <a href="index.html" class="text-2xl font-bold">ML & Security</a>
+      <div class="space-x-6">
+        <a href="about.html">МО дегеніміз</a>
+        <a href="security.html" class="text-yellow-300 font-semibold">Қауіпсіздік</a>
+        <a href="role.html">Рөлі</a>
+        <a href="methods.html">Әдістер</a>
+        <a href="risks.html">Тәуекелдер</a>
+        <a href="examples.html">Мысалдар</a>
+        <a href="future.html">Болашақ</a>
+        <a href="contact.html">Байланыс</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Контент -->
+  <main class="max-w-5xl mx-auto px-6 py-16 fade-in">
+    <h1 class="text-4xl font-bold mb-8 text-center">⚡ Қауіпсіздік</h1>
+
+    <div class="card">
+      <h2 class="text-2xl font-semibold mb-2 text-yellow-300">Киберқауіп түрлері</h2>
+      <p>Желілердегі негізгі қауіптерге фишинг, зиянды бағдарламалар, ransomware, DDoS-шабуылдар және әлеуметтік инженерия жатады.</p>
+    </div>
+
+    <div class="card">
+      <h2 class="text-2xl font-semibold mb-2 text-yellow-300">МО көмегімен қорғау</h2>
+      <p>Машиналық оқыту алгоритмдері шабуыл ықтималдығын анықтап, IDS/IPS жүйелерінде күдікті әрекеттерді жылдам табуға көмектеседі.</p>
+    </div>
+
+    <div class="card">
+      <h2 class="text-2xl font-semibold mb-2 text-yellow-300">Заманауи тәсілдер</h2>
+      <p>Жасанды интеллект пен МО біріктіріліп, нақты уақыттағы аномалияларды бақылау және шабуылдың алдын алу мүмкіндігі кеңінен қолданылады.</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-blue-900 bg-opacity-80 text-center py-6 text-gray-300">
+    <p>© 2025 Машиналық оқыту және қауіпсіздік | Танабаев Д.Г. & Беріккалиев Ж.Ж.</p>
+  </footer>
+
+  <!-- Музыка iframe -->
+  <iframe src="player.html" style="display:none;" id="musicFrame"></iframe>
+  <button id="music-btn" class="fixed bottom-6 right-6 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-full z-50">
+    🔊 Музыка ойнап тұр
+  </button>
+
+  <script>
+    const btn = document.getElementById("music-btn");
+    const iframe = document.getElementById("musicFrame");
+    let playing = true;
+    btn.addEventListener("click", () => {
+      const music = iframe.contentWindow.document.getElementById("bgMusic");
+      if(playing){ music.pause(); btn.textContent="🔈 Музыка өшірулі"; }
+      else { music.play(); btn.textContent="🔊 Музыка ойнап тұр"; }
+      playing = !playing;
+    });
+  </script>
+
+</body>
+</html>
