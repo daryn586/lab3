@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <title>Тәуекелдер | ML & Security</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(-45deg, #7f1d1d, #991b1b, #1e293b, #0f172a);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+      color: white;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .card {
+      transform-style: preserve-3d;
+      transition: all 0.4s ease;
+    }
+    .card:hover {
+      transform: translateY(-12px) rotateX(6deg) rotateY(-6deg);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    }
+
+    .fade-in {
+      animation: fadeInUp 1.3s ease forwards;
+      opacity: 0;
+    }
+    @keyframes fadeInUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Навигация -->
+  <nav class="bg-red-900 bg-opacity-70 backdrop-blur-md p-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <a href="index.html" class="text-2xl font-bold text-yellow-300">ML & Security</a>
+      <div class="space-x-6">
+        <a href="about.html" class="hover:text-yellow-300">МО дегеніміз</a>
+        <a href="security.html" class="hover:text-yellow-300">Қауіпсіздік</a>
+        <a href="role.html" class="hover:text-yellow-300">Рөлі</a>
+        <a href="methods.html" class="hover:text-yellow-300">Әдістер</a>
+        <a href="risks.html" class="text-yellow-400 font-semibold">Тәуекелдер</a>
+        <a href="examples.html" class="hover:text-yellow-300">Мысалдар</a>
+        <a href="future.html" class="hover:text-yellow-300">Болашақ</a>
+        <a href="contact.html" class="hover:text-yellow-300">Байланыс</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Контент -->
+  <main class="max-w-6xl mx-auto px-6 py-16">
+    <h1 class="text-4xl font-bold text-center mb-12 fade-in">⚠️ Машиналық оқытудың тәуекелдері</h1>
+    <div class="grid md:grid-cols-2 gap-8">
+      
+      <div class="card bg-white bg-opacity-10 backdrop-blur-md p-6 rounded-xl fade-in">
+        <h2 class="text-2xl font-semibold mb-4 text-yellow-300">Қате анықтау</h2>
+        <p>Модель кейбір шабуыл түрлерін байқамай қалуы мүмкін. Бұл әсіресе жаңа және белгісіз киберқауіптерде жиі кездеседі.</p>
+      </div>
+      
+      <div class="card bg-white bg-opacity-10 backdrop-blur-md p-6 rounded-xl fade-in" style="animation-delay:0.3s;">
+        <h2 class="text-2xl font-semibold mb-4 text-yellow-300">Артық тәуелділік</h2>
+        <p>Кейбір ұйымдар машиналық оқытуға тым артық сеніп, дәстүрлі қауіпсіздік шараларын ұмытып кетуі ықтимал.</p>
+      </div>
+      
+      <div class="card bg-white bg-opacity-10 backdrop-blur-md p-6 rounded-xl fade-in" style="animation-delay:0.6s;">
+        <h2 class="text-2xl font-semibold mb-4 text-yellow-300">Деректер сапасы</h2>
+        <p>Егер модельді үйрететін деректер сапасыз болса, онда жүйе де дұрыс жұмыс істемейді.</p>
+      </div>
+      
+      <div class="card bg-white bg-opacity-10 backdrop-blur-md p-6 rounded-xl fade-in" style="animation-delay:0.9s;">
+        <h2 class="text-2xl font-semibold mb-4 text-yellow-300">Шабуылдарға осалдық</h2>
+        <p>ML модельдері adversarial шабуылдарға осал болуы мүмкін: арнайы өзгертілген деректер оларды алдайды.</p>
+      </div>
+      
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-black bg-opacity-50 text-center text-gray-300 py-6 mt-16">
+    <p>© 2025 Машиналық оқыту және қауіпсіздік | Танабаев Д.Г. & Беріккалиев Ж.Ж.</p>
+  </footer>
+
+</body>
+</html>

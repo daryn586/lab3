@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <title>Болашақ | ML & Security</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: radial-gradient(ellipse at bottom, #0f172a, #000);
+      overflow: hidden;
+      color: white;
+    }
+
+    /* Жұлдыздар */
+    .stars {
+      width: 2px;
+      height: 2px;
+      background: white;
+      box-shadow: 
+        50px 100px white,
+        150px 200px white,
+        250px 300px white,
+        400px 150px white,
+        600px 500px white,
+        800px 700px white,
+        1000px 400px white,
+        1200px 250px white;
+      animation: zoom 20s linear infinite;
+    }
+    @keyframes zoom {
+      from { transform: scale(1); opacity: 1; }
+      to { transform: scale(2); opacity: 0; }
+    }
+
+    .glow {
+      text-shadow: 0 0 10px #38bdf8, 0 0 20px #0ea5e9, 0 0 30px #0284c7;
+    }
+
+    .fade-in {
+      animation: fadeInUp 1.3s ease forwards;
+      opacity: 0;
+    }
+    @keyframes fadeInUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Жұлдыздар -->
+  <div class="stars"></div>
+
+  <!-- Навигация -->
+  <nav class="bg-slate-900 bg-opacity-70 backdrop-blur-md p-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <a href="index.html" class="text-2xl font-bold text-cyan-300">ML & Security</a>
+      <div class="space-x-6">
+        <a href="about.html" class="hover:text-cyan-300">МО дегеніміз</a>
+        <a href="security.html" class="hover:text-cyan-300">Қауіпсіздік</a>
+        <a href="role.html" class="hover:text-cyan-300">Рөлі</a>
+        <a href="methods.html" class="hover:text-cyan-300">Әдістер</a>
+        <a href="risks.html" class="hover:text-cyan-300">Тәуекелдер</a>
+        <a href="examples.html" class="hover:text-cyan-300">Мысалдар</a>
+        <a href="future.html" class="text-cyan-400 font-semibold">Болашақ</a>
+        <a href="contact.html" class="hover:text-cyan-300">Байланыс</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Контент -->
+  <main class="max-w-5xl mx-auto px-6 py-20 text-center">
+    <h1 class="text-5xl font-extrabold mb-10 glow fade-in">🚀 Машиналық оқытудың болашағы</h1>
+    <p class="text-xl text-gray-200 leading-relaxed fade-in" style="animation-delay:0.3s;">
+      Болашақта машиналық оқыту киберқауіпсіздіктің негізгі тірегіне айналады. 
+      Автоматтандырылған шабуылдарды болжау, өзін-өзі жетілдіретін қорғаныс жүйелерін құру 
+      және жасанды интеллект арқылы жаңа кибершабуыл түрлерін бейтараптандыру мүмкін болады.
+    </p>
+
+    <div class="mt-12 grid md:grid-cols-3 gap-8">
+      <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl fade-in">
+        <h2 class="text-2xl font-semibold mb-3 text-cyan-300">🔮 Автоматтандырылған қорғаныс</h2>
+        <p>Жүйелер шабуылды тек анықтап қана қоймай, оған жауап беруді де толық автоматтандырады.</p>
+      </div>
+
+      <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl fade-in" style="animation-delay:0.4s;">
+        <h2 class="text-2xl font-semibold mb-3 text-cyan-300">🛰️ Жаһандық қауіпсіздік</h2>
+        <p>Машиналық оқыту бүкіл әлем бойынша кибершабуылдарды синхронды түрде анықтайды.</p>
+      </div>
+
+      <div class="bg-white/10 backdrop-blur-md p-6 rounded-xl fade-in" style="animation-delay:0.7s;">
+        <h2 class="text-2xl font-semibold mb-3 text-cyan-300">🤖 Өзін-өзі жетілдіру</h2>
+        <p>Қорғаныс жүйелері шабуылдарды талдай отырып, өздігінен жаңа әдістерді үйренеді.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-black bg-opacity-60 text-center text-gray-400 py-6 mt-16">
+    <p>© 2025 Машиналық оқыту және қауіпсіздік | Танабаев Д.Г. & Беріккалиев Ж.Ж.</p>
+  </footer>
+
+</body>
+</html>

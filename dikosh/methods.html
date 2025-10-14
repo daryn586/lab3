@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <title>Әдістер | ML & Security</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(-45deg, #1e3a8a, #312e81, #1e40af, #3730a3);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      color: white;
+    }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .card {
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px) scale(1.05) rotateX(5deg) rotateY(-5deg);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .fade-in {
+      animation: fadeInUp 1.2s ease forwards;
+      opacity: 0;
+    }
+    @keyframes fadeInUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Навигация -->
+  <nav class="bg-blue-900 bg-opacity-70 backdrop-blur-md p-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <a href="index.html" class="text-2xl font-bold text-yellow-300">ML & Security</a>
+      <div class="space-x-6">
+        <a href="about.html" class="hover:text-yellow-300">МО дегеніміз</a>
+        <a href="security.html" class="hover:text-yellow-300">Қауіпсіздік</a>
+        <a href="role.html" class="hover:text-yellow-300">Рөлі</a>
+        <a href="methods.html" class="text-yellow-400 font-semibold">Әдістер</a>
+        <a href="risks.html" class="hover:text-yellow-300">Тәуекелдер</a>
+        <a href="examples.html" class="hover:text-yellow-300">Мысалдар</a>
+        <a href="future.html" class="hover:text-yellow-300">Болашақ</a>
+        <a href="contact.html" class="hover:text-yellow-300">Байланыс</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Контент -->
+  <main class="max-w-6xl mx-auto px-6 py-16">
+    <h1 class="text-4xl font-bold text-center mb-12 fade-in">⚙️ Машиналық оқыту әдістері</h1>
+    <div class="grid md:grid-cols-3 gap-8">
+      
+      <div class="card bg-white bg-opacity-10 backdrop-blur-md p-6 rounded-xl fade-in">
+        <h2 class="text-2xl font-semibold mb-4 text-yellow-300">Бақыланатын оқыту</h2>
+        <p>Бұл әдісте модельге дайын деректер мен дұрыс жауаптар беріледі. Жүйе қателерін азайтып, жаңа деректерге болжам жасайды.</p>
+      </div>
+      
+      <div class="card bg-white bg-opacity-10 backdrop-blur-md p-6 rounded-xl fade-in" style="animation-delay:0.3s;">
+        <h2 class="text-2xl font-semibold mb-4 text-yellow-300">Бақыланбайтын оқыту</h2>
+        <p>Модель белгісіз деректерден жасырын заңдылықтарды табады. Кластерлеу, деректерді қысқарту әдістерінде қолданылады.</p>
+      </div>
+      
+      <div class="card bg-white bg-opacity-10 backdrop-blur-md p-6 rounded-xl fade-in" style="animation-delay:0.6s;">
+        <h2 class="text-2xl font-semibold mb-4 text-yellow-300">Күшейтілген оқыту</h2>
+        <p>Агент ортада әрекет етіп, әрбір шешім үшін сыйақы немесе айып алады. Бұл әдіс робот техникасы, ойындарда кеңінен қолданылады.</p>
+      </div>
+      
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-black bg-opacity-50 text-center text-gray-300 py-6 mt-16">
+    <p>© 2025 Машиналық оқыту және қауіпсіздік | Танабаев Д.Г. & Беріккалиев Ж.Ж.</p>
+  </footer>
+
+</body>
+</html>

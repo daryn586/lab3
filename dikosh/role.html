@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8">
+  <title>Рөлі | Machine Learning & Security</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+      background-size: 600% 600%;
+      animation: gradientMove 15s ease infinite;
+    }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .fade-in { animation: fadeIn 2s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .scale-up { transition: transform 0.4s ease; }
+    .scale-up:hover { transform: scale(1.05) rotate(-1deg); }
+  </style>
+</head>
+<body class="text-gray-100">
+
+  <!-- Навигация -->
+  <nav class="bg-blue-900 bg-opacity-80 backdrop-blur text-white p-4 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <a href="index.html" class="text-2xl font-bold">ML & Security</a>
+      <div class="space-x-6">
+        <a href="about.html" class="hover:text-yellow-300">МО дегеніміз</a>
+        <a href="security.html" class="hover:text-yellow-300">Қауіпсіздік</a>
+        <a href="role.html" class="text-yellow-300 font-semibold">Рөлі</a>
+        <a href="methods.html" class="hover:text-yellow-300">Әдістер</a>
+        <a href="risks.html" class="hover:text-yellow-300">Тәуекелдер</a>
+        <a href="examples.html" class="hover:text-yellow-300">Мысалдар</a>
+        <a href="future.html" class="hover:text-yellow-300">Болашақ</a>
+        <a href="contact.html" class="hover:text-yellow-300">Байланыс</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="relative text-white text-center py-24 fade-in">
+    <h1 class="text-5xl font-bold mb-6">Машиналық оқытудың рөлі</h1>
+    <p class="text-xl">Киберқауіпсіздіктегі МО мүмкіндіктері</p>
+  </section>
+
+  <!-- Content -->
+  <main class="max-w-5xl mx-auto px-6 py-12 space-y-10 fade-in">
+    <div class="bg-white/10 p-8 rounded-2xl shadow-xl scale-up">
+      <h2 class="text-3xl font-bold mb-4 text-yellow-300">Аномалияларды анықтау</h2>
+      <p class="text-gray-200 leading-relaxed">
+        МО үлгілері желідегі қалыпты трафикті үйреніп, кез келген ауытқуды 
+        автоматты түрде аномалия ретінде белгілей алады. Бұл әдіс жаңа шабуыл түрлерін 
+        ерте анықтауға мүмкіндік береді.
+      </p>
+    </div>
+
+    <div class="bg-white/10 p-8 rounded-2xl shadow-xl scale-up">
+      <h2 class="text-3xl font-bold mb-4 text-yellow-300">Автоматтандырылған шешімдер</h2>
+      <p class="text-gray-200 leading-relaxed">
+        Жасанды интеллект шабуыл белгілерін талдап, қауіптің деңгейіне байланысты 
+        нақты шешім қабылдайды. Мысалы, күдікті IP мекенжайларды автоматты түрде 
+        бұғаттау.
+      </p>
+    </div>
+
+    <div class="bg-white/10 p-8 rounded-2xl shadow-xl scale-up">
+      <h2 class="text-3xl font-bold mb-4 text-yellow-300">Үздіксіз үйрену</h2>
+      <p class="text-gray-200 leading-relaxed">
+        МО модельдері уақыт өте келе жаңа шабуылдардан сабақ алып, өзін-өзі 
+        жетілдіреді. Бұл киберқауіпсіздік жүйелерін тұрақты түрде заманауи 
+        қауіптерге бейімдейді.
+      </p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-blue-900 bg-opacity-80 backdrop-blur text-white py-8 text-center mt-12">
+    <p>© 2025 Машиналық оқыту және қауіпсіздік | Танабаев Д.Г. & Беріккалиев Ж.Ж.</p>
+  </footer>
+
+</body>
+</html>
