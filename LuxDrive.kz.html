@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="kk" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LuxDrive KZ — Премиум Авто Жалдау</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<!-- 2GIS Map API -->
+<link rel="stylesheet" href="https://mapgl.2gis.com/api/css">
+<script src="https://mapgl.2gis.com/api/js/v1"></script>
+<style>
+/* ===== RESET & VARIABLES ===== */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+:root{
+    --gold:#F2C94C;
+    --gold-light:#FFE18A;
+    --gold-dark:#D4A82A;
+    --bg-dark:#0B0F15;
+    --bg-card:#131A22;
+    --text-light:#F5F9FF;
+    --text-muted:#8B97A8;
+    --border:rgba(242,201,76,0.15);
+    --transition:all 0.3s cubic-bezier(0.4,0,0.2,1);
+    --font-size-base:16px;
+}
+[data-theme="light"]{
+    --bg-dark:#F8FAFE;
+    --bg-card:#FFFFFF;
+    --text-light:#1E293B;
+    --text-muted:#64748B;
+    --border:rgba(0,0,0,0.08);
+}
+body.large-text{--font-size-base:22px;}
+body.large-text .nav-links a{font-size:18px;}
+body.large-text .hero h1{font-size:82px;}
+body.high-contrast{
+    --gold:#FFD700;
+    --text-light:#FFFFFF;
+    --text-muted:#FFFF00;
+    --bg-dark:#000000;
+    --bg-card:#0A0A0A;
+    --border:#FFFF00;
+}
+body.reduce-motion *{transition:none !important;animation:none !important;}
+body{
+    background:var(--bg-dark);
+    color:var(--text-light);
+    overflow-x:hidden;
+    font-size:var(--font-size-base);
+}
+.container{max-width:1440px;margin:0 auto;padding:0 60px;}
+@media(max-width:1200px){.container{padding:0 32px;}}
+@media(max-width:768px){.container{padding:0 20px;}}
+
+/* ===== ACCESSIBILITY PANEL ===== */
+.a11y-panel{
+    position:fixed;
+    right:20px;
+    top:50%;
+    transform:translateY(-50%);
+    background:var(--bg-card);
+    border:2px solid var(--gold);
+    border-radius:50px;
+    padding:15px 10px;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    z-index:1000;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+.a11y-btn{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.1);
+    border:1px solid var(--border);
+    color:var(--text-light);
+    font-size:20px;
+    cursor:pointer;
+    transition:0.3s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.a11y-btn:hover,
+.a11y-btn.active{
+    background:var(--gold);
+    color:var(--bg-dark);
+    border-color:var(--gold);
+}
+.screen-reader-only{
+    position:absolute;
+    width:1px;
+    height:1px;
+    padding:0;
+    margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    border:0;
+}
+
+/* ===== NAVIGATION ===== */
+nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:1000;
+    padding:20px 0;
+    background:rgba(11,15,21,0.95);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+}
+.nav-content{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    max-width:1440px;
+    margin:0 auto;
+    padding:0 60px;
+}
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+}
+.logo-icon{
+    width:48px;
+    height:48px;
+    background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+}
+.logo-text{
+    font-size:24px;
+    font-weight:800;
+    background:linear-gradient(135deg,var(--gold),#fff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+.nav-links{display:flex;gap:40px;}
+.nav-links a{
+    color:var(--text-muted);
+    text-decoration:none;
+    font-weight:500;
+    font-size:14px;
+    cursor:pointer;
+    position:relative;
+}
+.nav-links a:hover,
+.nav-links a.active{color:var(--gold);}
+.nav-links a::after{
+    content:'';
+    position:absolute;
+    bottom:-5px;
+    left:0;
+    width:0;
+    height:2px;
+    background:var(--gold);
+    transition:width 0.3s;
+}
+.nav-links a:hover::after,
+.nav-links a.active::after{width:100%;}
+.nav-right{display:flex;gap:12px;align-items:center;}
+.lang-selector{
+    display:flex;
+    gap:4px;
+    background:rgba(255,255,255,0.05);
+    border-radius:30px;
+    padding:4px;
+}
+.lang-btn{
+    padding:6px 12px;
+    border:none;
+    background:none;
+    color:var(--text-muted);
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    border-radius:30px;
+}
+.lang-btn.active{
+    background:var(--gold);
+    color:var(--bg-dark);
+}
+.btn{
+    background:var(--gold);
+    color:var(--bg-dark);
+    border:none;
+    padding:10px 24px;
+    border-radius:30px;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+}
+.btn-outline{
+    background:transparent;
+    border:2px solid var(--gold);
+    color:var(--gold);
+}
+.btn-outline:hover{
+    background:var(--gold);
+    color:var(--bg-dark);
+}
+.user-menu{position:relative;}
+.user-avatar{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    cursor:pointer;
+}
+.dropdown{
+    position:absolute;
+    top:54px;
+    right:0;
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:8px;
+    min-width:220px;
+    display:none;
+    z-index:100;
+}
+.dropdown.show{display:block;}
+.dropdown-item{
+    padding:10px 12px;
+    border-radius:8px;
+    cursor:pointer;
+}
+.dropdown-item:hover{
+    background:rgba(242,201,76,0.1);
+    color:var(--gold);
+}
+
+/* ===== HERO ===== */
+.hero{
+    min-height:90vh;
+    display:flex;
+    align-items:center;
+    margin-top:80px;
+}
+.hero-content{flex:1;max-width:650px;}
+.hero-badge{
+    display:inline-block;
+    padding:6px 16px;
+    background:rgba(242,201,76,0.1);
+    border:1px solid var(--gold);
+    border-radius:30px;
+    color:var(--gold);
+    font-size:12px;
+    font-weight:600;
+    margin-bottom:24px;
+}
+.hero h1{
+    font-size:64px;
+    font-weight:800;
+    line-height:1.1;
+    margin-bottom:24px;
+}
+.hero h1 span{
+    color:var(--gold);
+    position:relative;
+}
+.hero h1 span::after{
+    content:'';
+    position:absolute;
+    bottom:10px;
+    left:0;
+    width:100%;
+    height:8px;
+    background:rgba(242,201,76,0.3);
+    z-index:-1;
+}
+.hero-desc{
+    font-size:18px;
+    color:var(--text-muted);
+    line-height:1.7;
+    margin-bottom:40px;
+    max-width:500px;
+}
+.hero-stats{
+    display:flex;
+    gap:40px;
+    margin-top:50px;
+}
+.stat-item .stat-num{
+    font-size:32px;
+    font-weight:800;
+    color:var(--gold);
+}
+.stat-item .stat-label{
+    font-size:14px;
+    color:var(--text-muted);
+    margin-top:5px;
+}
+.hero-carousel{
+    flex:1;
+    position:relative;
+    height:500px;
+    margin-left:40px;
+}
+.carousel-container{
+    position:relative;
+    width:100%;
+    height:100%;
+}
+.carousel-item{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    transition:opacity 1s ease;
+}
+.carousel-item.active{opacity:1;}
+.car-image{
+    width:100%;
+    height:auto;
+    filter:drop-shadow(0 30px 40px rgba(0,0,0,0.5));
+    animation:float 6s infinite ease-in-out;
+}
+@keyframes float{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-20px);}
+}
+.car-badge{
+    position:absolute;
+    top:20px;
+    right:20px;
+    background:rgba(0,0,0,0.8);
+    backdrop-filter:blur(10px);
+    padding:12px 24px;
+    border-radius:50px;
+    border:1px solid var(--gold);
+}
+.car-badge span{
+    color:var(--gold);
+    font-weight:700;
+    font-size:18px;
+}
+.car-indicators{
+    position:absolute;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    gap:10px;
+}
+.indicator{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.3);
+    cursor:pointer;
+}
+.indicator.active{
+    background:var(--gold);
+    transform:scale(1.3);
+}
+
+/* ===== SECTIONS ===== */
+section{padding:80px 0;}
+.section-title{
+    text-align:center;
+    margin-bottom:60px;
+}
+.section-tag{
+    color:var(--gold);
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-bottom:15px;
+    display:block;
+}
+.section-title h2{
+    font-size:42px;
+    font-weight:800;
+    margin-bottom:20px;
+}
+.section-title h2 span{color:var(--gold);}
+.section-title p{
+    color:var(--text-muted);
+    font-size:16px;
+    max-width:600px;
+    margin:0 auto;
+}
+
+/* ===== CAR FILTER ===== */
+.filter-tabs{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-bottom:40px;
+    flex-wrap:wrap;
+}
+.filter-tab{
+    padding:10px 28px;
+    border-radius:30px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid var(--border);
+    color:var(--text-muted);
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+}
+.filter-tab.active,
+.filter-tab:hover{
+    background:var(--gold);
+    color:var(--bg-dark);
+    border-color:var(--gold);
+}
+
+/* ===== CAR GRID ===== */
+.cars-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+    gap:30px;
+    margin-bottom:60px;
+}
+.car-card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:24px;
+    overflow:hidden;
+    transition:0.4s;
+    cursor:pointer;
+    position:relative;
+}
+.car-card:hover{
+    transform:translateY(-10px);
+    border-color:var(--gold);
+    box-shadow:0 30px 60px rgba(242,201,76,0.15);
+}
+.car-image{
+    height:220px;
+    background:linear-gradient(45deg,#1E2A35,#0F141C);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+}
+.car-image img{
+    width:90%;
+    height:auto;
+    object-fit:contain;
+    transition:0.5s;
+}
+.car-card:hover .car-image img{
+    transform:scale(1.1) rotate(2deg);
+}
+.car-badges{
+    position:absolute;
+    top:15px;
+    left:15px;
+    display:flex;
+    gap:8px;
+}
+.car-badge-item{
+    padding:4px 12px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:600;
+    background:rgba(0,0,0,0.8);
+    backdrop-filter:blur(5px);
+    color:var(--text-light);
+}
+.car-badge-item.gold{
+    background:var(--gold);
+    color:var(--bg-dark);
+}
+.car-fav{
+    position:absolute;
+    top:15px;
+    right:15px;
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(5px);
+    border:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+.car-fav:hover{
+    background:var(--gold);
+    color:var(--bg-dark);
+}
+.car-info{padding:24px;}
+.car-title{
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:5px;
+}
+.car-subtitle{
+    color:var(--gold);
+    font-size:14px;
+    margin-bottom:15px;
+}
+.car-specs{
+    display:flex;
+    gap:20px;
+    margin-bottom:20px;
+    padding-bottom:20px;
+    border-bottom:1px solid var(--border);
+}
+.spec-item{
+    display:flex;
+    flex-direction:column;
+}
+.spec-value{
+    font-weight:700;
+    font-size:14px;
+}
+.spec-label{
+    color:var(--text-muted);
+    font-size:11px;
+    margin-top:3px;
+}
+.car-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+.car-price{
+    font-size:22px;
+    font-weight:800;
+    color:var(--gold);
+}
+.car-price small{
+    font-size:12px;
+    color:var(--text-muted);
+    font-weight:400;
+}
+.car-btn{
+    background:transparent;
+    border:2px solid var(--gold);
+    color:var(--gold);
+    padding:8px 20px;
+    border-radius:30px;
+    font-weight:600;
+    font-size:12px;
+    cursor:pointer;
+}
+.car-btn:hover{
+    background:var(--gold);
+    color:var(--bg-dark);
+}
+
+/* ===== MAP SECTION ===== */
+.map-section{
+    padding:40px 0;
+    background:var(--bg-card);
+}
+.map-container{
+    height:500px;
+    border-radius:24px;
+    overflow:hidden;
+    border:1px solid var(--border);
+    margin-top:30px;
+}
+.map-wrapper{
+    width:100%;
+    height:100%;
+}
+.map-popup{
+    padding:10px;
+    max-width:200px;
+}
+.map-popup h4{
+    color:var(--gold);
+    margin-bottom:5px;
+    font-size:14px;
+}
+.map-popup p{
+    color:var(--text-muted);
+    font-size:12px;
+    margin-bottom:3px;
+}
+.map-popup .price{
+    color:var(--gold);
+    font-weight:700;
+    font-size:13px;
+}
+
+/* ===== FEATURES ===== */
+.features-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:30px;
+}
+.feature-card{
+    text-align:center;
+    padding:40px 20px;
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:24px;
+}
+.feature-card:hover{
+    border-color:var(--gold);
+    transform:translateY(-5px);
+}
+.feature-icon{
+    width:80px;
+    height:80px;
+    background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+    border-radius:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 20px;
+    font-size:32px;
+}
+.feature-card h3{
+    font-size:18px;
+    margin-bottom:10px;
+}
+.feature-card p{
+    color:var(--text-muted);
+    font-size:13px;
+    line-height:1.7;
+}
+
+/* ===== LOYALTY ===== */
+.loyalty-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:25px;
+}
+.loyalty-card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:30px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+}
+.loyalty-card::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:4px;
+    background:linear-gradient(90deg,var(--gold),transparent);
+}
+.loyalty-tier{
+    font-size:48px;
+    margin-bottom:15px;
+}
+.loyalty-name{
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+.loyalty-discount{
+    font-size:32px;
+    font-weight:800;
+    color:var(--gold);
+    margin-bottom:20px;
+}
+.loyalty-perks{
+    list-style:none;
+    color:var(--text-muted);
+    font-size:13px;
+    line-height:2;
+}
+
+/* ===== HOW IT WORKS ===== */
+.steps-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:25px;
+}
+.step-card{
+    text-align:center;
+    padding:30px;
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:24px;
+}
+.step-number{
+    width:60px;
+    height:60px;
+    background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+    font-weight:800;
+    margin:0 auto 20px;
+}
+.step-card h3{
+    font-size:18px;
+    margin-bottom:15px;
+}
+.step-card p{
+    color:var(--text-muted);
+    font-size:13px;
+    line-height:1.7;
+}
+
+/* ===== CONTACT ===== */
+.contact-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:40px;
+}
+.contact-info{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:40px;
+}
+.contact-item{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    margin-bottom:30px;
+}
+.contact-icon{
+    width:50px;
+    height:50px;
+    background:rgba(242,201,76,0.1);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+.contact-text h4{
+    font-size:16px;
+    margin-bottom:5px;
+}
+.contact-text p{
+    color:var(--text-muted);
+    font-size:14px;
+}
+.contact-form{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:40px;
+}
+.form-group{
+    margin-bottom:20px;
+}
+.form-group label{
+    display:block;
+    font-size:12px;
+    color:var(--text-muted);
+    margin-bottom:8px;
+}
+.form-group input,
+.form-group textarea{
+    width:100%;
+    padding:14px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid var(--border);
+    border-radius:12px;
+    color:var(--text-light);
+    font-size:14px;
+}
+.form-group textarea{
+    height:120px;
+    resize:none;
+}
+
+/* ===== FOOTER ===== */
+footer{
+    background:var(--bg-card);
+    border-top:1px solid var(--border);
+    padding:80px 0 30px;
+    margin-top:80px;
+}
+.footer-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:40px;
+}
+.footer-logo{
+    font-size:24px;
+    font-weight:800;
+    margin-bottom:20px;
+}
+.footer-logo span{color:var(--gold);}
+.footer-text{
+    color:var(--text-muted);
+    font-size:14px;
+    line-height:1.8;
+    margin-bottom:20px;
+}
+.social-links{
+    display:flex;
+    gap:12px;
+}
+.social-link{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.05);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+.social-link:hover{
+    background:var(--gold);
+    color:var(--bg-dark);
+}
+.footer-col h4{
+    font-size:16px;
+    font-weight:700;
+    margin-bottom:20px;
+}
+.footer-col ul{
+    list-style:none;
+}
+.footer-col ul li{
+    margin-bottom:12px;
+}
+.footer-col ul li a{
+    color:var(--text-muted);
+    text-decoration:none;
+    font-size:14px;
+    cursor:pointer;
+}
+.footer-col ul li a:hover{
+    color:var(--gold);
+}
+.footer-bottom{
+    text-align:center;
+    padding-top:40px;
+    margin-top:40px;
+    border-top:1px solid var(--border);
+    color:var(--text-muted);
+    font-size:12px;
+}
+
+/* ===== MODALS ===== */
+.modal-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.9);
+    z-index:2000;
+    backdrop-filter:blur(10px);
+    align-items:center;
+    justify-content:center;
+}
+.modal-overlay.active{display:flex;}
+.modal{
+    background:var(--bg-card);
+    border:1px solid var(--gold);
+    border-radius:30px;
+    padding:40px;
+    width:90%;
+    max-width:500px;
+    max-height:90vh;
+    overflow-y:auto;
+}
+.modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:30px;
+}
+.modal-header h2{
+    font-size:24px;
+    font-weight:800;
+}
+.modal-close{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.05);
+    border:none;
+    color:var(--text-light);
+    cursor:pointer;
+    font-size:18px;
+}
+.modal-btn{
+    width:100%;
+    padding:14px;
+    background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+    border:none;
+    border-radius:12px;
+    font-weight:700;
+    cursor:pointer;
+    margin-top:20px;
+}
+
+/* ===== SEARCH ===== */
+.search-card{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:30px;
+}
+.search-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr auto;
+    gap:15px;
+    align-items:end;
+}
+.search-field label{
+    display:block;
+    font-size:12px;
+    color:var(--text-muted);
+    margin-bottom:8px;
+}
+.search-field input,
+.search-field select{
+    width:100%;
+    padding:14px 18px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid var(--border);
+    border-radius:12px;
+    color:var(--text-light);
+    font-size:14px;
+    outline:none;
+}
+.search-field input:focus{border-color:var(--gold);}
+.search-btn{
+    background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+    color:var(--bg-dark);
+    border:none;
+    border-radius:12px;
+    padding:14px 32px;
+    font-weight:700;
+    font-size:14px;
+    cursor:pointer;
+    white-space:nowrap;
+}
+.search-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 15px 30px rgba(242,201,76,0.3);
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+    .hero{flex-direction:column;text-align:center;}
+    .hero-content{max-width:100%;}
+    .hero-stats{justify-content:center;}
+    .features-grid{grid-template-columns:repeat(2,1fr);}
+    .loyalty-grid{grid-template-columns:repeat(2,1fr);}
+    .steps-grid{grid-template-columns:repeat(2,1fr);}
+    .contact-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .search-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:768px){
+    .nav-links{display:none;}
+    .features-grid{grid-template-columns:1fr;}
+    .loyalty-grid{grid-template-columns:1fr;}
+    .steps-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr;}
+    .search-grid{grid-template-columns:1fr;}
+    .a11y-panel{top:auto;bottom:20px;right:20px;transform:none;flex-direction:row;}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== ACCESSIBILITY PANEL ===== -->
+<div class="a11y-panel">
+    <button class="a11y-btn" id="a11yLargeText" onclick="toggleLargeText()"><i class="fas fa-text-height"></i></button>
+    <button class="a11y-btn" id="a11yContrast" onclick="toggleHighContrast()"><i class="fas fa-adjust"></i></button>
+    <button class="a11y-btn" id="a11yMotion" onclick="toggleReduceMotion()"><i class="fas fa-pause-circle"></i></button>
+    <button class="a11y-btn" onclick="speakSelectedText()"><i class="fas fa-volume-up"></i></button>
+</div>
+<div class="screen-reader-only" id="srAnnounce" aria-live="polite"></div>
+
+<!-- ===== NAVIGATION ===== -->
+<nav>
+    <div class="nav-content">
+        <div class="logo" onclick="scrollToTop()">
+            <div class="logo-icon">🚗</div>
+            <div class="logo-text">LuxDrive <span>KZ</span></div>
+        </div>
+        <div class="nav-links">
+            <a class="active" data-i18n="nav_catalog" onclick="scrollToSection('catalog')">Каталог</a>
+            <a data-i18n="nav_loyalty" onclick="scrollToSection('loyalty')">Лояльдылық</a>
+            <a data-i18n="nav_how" onclick="scrollToSection('how')">Қалай жұмыс істейді</a>
+            <a data-i18n="nav_contacts" onclick="scrollToSection('contact')">Байланыс</a>
+        </div>
+        <div class="nav-right">
+            <div class="lang-selector">
+                <button class="lang-btn active" onclick="changeLang('kz')">KZ</button>
+                <button class="lang-btn" onclick="changeLang('ru')">RU</button>
+                <button class="lang-btn" onclick="changeLang('en')">EN</button>
+            </div>
+            <div id="authButtons">
+                <button class="btn btn-outline" onclick="openAuthModal('login')" data-i18n="login">Кіру</button>
+                <button class="btn" onclick="openAuthModal('register')" data-i18n="register">Тіркелу</button>
+            </div>
+            <div class="user-menu" id="userMenu" style="display:none;">
+                <div class="user-avatar" onclick="toggleDropdown()">А</div>
+                <div class="dropdown" id="userDropdown">
+                    <div style="padding:12px;border-bottom:1px solid var(--border);">
+                        <div style="font-weight:700;" id="userName">Алибек И.</div>
+                        <div style="font-size:12px;color:var(--gold);" id="userRole">Клиент</div>
+                    </div>
+                    <div style="padding:8px;">
+                        <div class="dropdown-item" onclick="openDashboard()">📊 Кабинет</div>
+                        <div class="dropdown-item" onclick="openAddCar()">🚗 Авто қосу</div>
+                        <div class="dropdown-item" onclick="logout()">🚪 Шығу</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ===== HERO SECTION ===== -->
+<section class="hero">
+    <div class="container" style="display:flex;align-items:center;">
+        <div class="hero-content">
+            <span class="hero-badge" data-i18n="hero_badge">Қазақстанның №1 жалдау сервисі</span>
+            <h1 data-i18n="hero_title">Лүкс автоны <span>меншіксіз</span> басқарыңыз</h1>
+            <p class="hero-desc" data-i18n="hero_desc">500+ премиум автомобиль. Telegram арқылы жылдам тіркелу. Мүмкіндігі шектеулі адамдарға арнайы авто.</p>
+            <div class="hero-stats">
+                <div class="stat-item"><div class="stat-num">500+</div><div class="stat-label" data-i18n="cars">Авто</div></div>
+                <div class="stat-item"><div class="stat-num">12K</div><div class="stat-label" data-i18n="clients">Клиент</div></div>
+                <div class="stat-item"><div class="stat-num">4.9</div><div class="stat-label" data-i18n="rating">Рейтинг</div></div>
+            </div>
+        </div>
+        <div class="hero-carousel">
+            <div class="carousel-container" id="carCarousel">
+                <div class="carousel-item active">
+                    <img src="https://purepng.com/public/uploads/large/purepng.com-mercedes-benz-s-classmercedes-benzs-classsedanmercedes-benz-s-class-1701529359209k6iht.png" alt="Mercedes-Benz S-Class" class="car-image">
+                    <div class="car-badge"><span>Mercedes S-Class</span></div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://purepng.com/public/uploads/large/purepng.com-bmw-7-seriesbmw-7-seriesbmw-7-series-sedanbmw-luxury-car-1701529360164bamsc.png" alt="BMW 7 Series" class="car-image">
+                    <div class="car-badge"><span>BMW 7 Series</span></div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://purepng.com/public/uploads/large/purepng.com-porsche-cayenneporsche-cayennesuvporsche-gts-1701529358933p0kwl.png" alt="Porsche Cayenne" class="car-image">
+                    <div class="car-badge"><span>Porsche Cayenne</span></div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://purepng.com/public/uploads/large/purepng.com-tesla-model-3teslaelektromobilsedanauto-271525140195bi8r6.png" alt="Tesla Model 3" class="car-image">
+                    <div class="car-badge"><span>Tesla Model 3</span></div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://purepng.com/public/uploads/large/purepng.com-toyota-alphardtoyota-alphardalphardminivantoyota-1701529359839mw5ed.png" alt="Toyota Alphard" class="car-image">
+                    <div class="car-badge"><span>Toyota Alphard</span></div>
+                </div>
+                <div class="car-indicators">
+                    <span class="indicator active" onclick="slideTo(0)"></span>
+                    <span class="indicator" onclick="slideTo(1)"></span>
+                    <span class="indicator" onclick="slideTo(2)"></span>
+                    <span class="indicator" onclick="slideTo(3)"></span>
+                    <span class="indicator" onclick="slideTo(4)"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== SEARCH BAR ===== -->
+<div class="container" style="margin-top:-60px;position:relative;z-index:10;">
+    <div class="search-card">
+        <div class="search-grid">
+            <div class="search-field"><label data-i18n="city">Қала</label><input type="text" placeholder="Алматы, Астана, Шымкент..." id="searchCity"></div>
+            <div class="search-field"><label data-i18n="start_date">Басталу күні</label><input type="date" id="searchStart"></div>
+            <div class="search-field"><label data-i18n="end_date">Аяқталу күні</label><input type="date" id="searchEnd"></div>
+            <button class="search-btn" onclick="searchCars()" data-i18n="search">Іздеу</button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== CAR CATALOG ===== -->
+<section id="catalog">
+    <div class="container">
+        <div class="section-title">
+            <span class="section-tag" data-i18n="catalog_title">Авто паркі</span>
+            <h2><span>LuxDrive</span> <span data-i18n="catalog_subtitle">каталогы</span></h2>
+            <p data-i18n="catalog_desc">Сізге арналған ең үздік автомобильдер</p>
+        </div>
+        
+        <div class="filter-tabs">
+            <button class="filter-tab active" onclick="filterCars('all',this)" data-i18n="all">Барлығы</button>
+            <button class="filter-tab" onclick="filterCars('sedan',this)" data-i18n="sedan">Седан</button>
+            <button class="filter-tab" onclick="filterCars('suv',this)" data-i18n="suv">SUV</button>
+            <button class="filter-tab" onclick="filterCars('sport',this)" data-i18n="sport">Спорт</button>
+            <button class="filter-tab" onclick="filterCars('electric',this)" data-i18n="electric">Электро</button>
+            <button class="filter-tab" onclick="filterCars('minivan',this)" data-i18n="minivan">Минивэн</button>
+            <button class="filter-tab" onclick="filterCars('accessible',this)" style="background:rgba(242,201,76,0.2);color:var(--gold);" data-i18n="accessible">♿ Арнайы авто</button>
+        </div>
+        
+        <div class="cars-grid" id="carsGrid"></div>
+    </div>
+</section>
+
+<!-- ===== MAP SECTION ===== -->
+<section class="map-section">
+    <div class="container">
+        <div class="section-title">
+            <span class="section-tag">2GIS</span>
+            <h2>Автолар <span>картада</span></h2>
+            <p>Біздің автолар 10 қалада орналасқан</p>
+        </div>
+        <div class="map-container" id="mapContainer"></div>
+    </div>
+</section>
+
+<!-- ===== FEATURES ===== -->
+<section id="features" style="background:var(--bg-card);">
+    <div class="container">
+        <div class="section-title">
+            <span class="section-tag" data-i18n="why_us">Неліктен біз?</span>
+            <h2>Біздің <span data-i18n="advantages">артықшылықтар</span></h2>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card"><div class="feature-icon">✈️</div><h3 data-i18n="feature1">Telegram кіру</h3><p data-i18n="feature1_desc">30 секундта тіркелу</p></div>
+            <div class="feature-card"><div class="feature-icon">♿</div><h3 data-i18n="feature2">Мүмкіндігі шектеулілерге</h3><p data-i18n="feature2_desc">Пандус, қол басқару</p></div>
+            <div class="feature-card"><div class="feature-icon">📸</div><h3 data-i18n="feature3">Фото тексеру</h3><p data-i18n="feature3_desc">6 бөлікті суретке түсіру</p></div>
+            <div class="feature-card"><div class="feature-icon">💎</div><h3 data-i18n="feature4">Лояльдылық</h3><p data-i18n="feature4_desc">20% дейін жеңілдік</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== LOYALTY PROGRAM ===== -->
+<section id="loyalty">
+    <div class="container">
+        <div class="section-title">
+            <span class="section-tag" data-i18n="loyalty">Лояльдылық</span>
+            <h2>Сіздің <span data-i18n="level">деңгейіңіз</span></h2>
+            <p data-i18n="loyalty_desc">Неғұрлым көп жалдасаңыз, соғұрлым көп жеңілдіктер аласыз</p>
+        </div>
+        <div class="loyalty-grid">
+            <div class="loyalty-card"><div class="loyalty-tier">🥉</div><div class="loyalty-name">Bronze</div><div class="loyalty-discount">0%</div><ul class="loyalty-perks"><li data-i18n="base_price">Базалық баға</li></ul></div>
+            <div class="loyalty-card"><div class="loyalty-tier">🥈</div><div class="loyalty-name">Silver</div><div class="loyalty-discount">5%</div><ul class="loyalty-perks"><li data-i18n="five_percent">5% жеңілдік</li><li data-i18n="priority">Басымды броньдау</li></ul></div>
+            <div class="loyalty-card"><div class="loyalty-tier">🥇</div><div class="loyalty-name">Gold</div><div class="loyalty-discount">12%</div><ul class="loyalty-perks"><li data-i18n="twelve_percent">12% жеңілдік</li><li data-i18n="free_delivery">Тегін жеткізу</li></ul></div>
+            <div class="loyalty-card"><div class="loyalty-tier">💎</div><div class="loyalty-name">Platinum</div><div class="loyalty-discount">20%</div><ul class="loyalty-perks"><li data-i18n="twenty_percent">20% жеңілдік</li><li data-i18n="no_deposit">Кепіл жоқ</li></ul></div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section id="how" style="background:var(--bg-card);">
+    <div class="container">
+        <div class="section-title">
+            <span class="section-tag" data-i18n="how_it_works">Қалай жұмыс істейді</span>
+            <h2>Қарапайым <span>4 қадам</span></h2>
+        </div>
+        <div class="steps-grid">
+            <div class="step-card"><div class="step-number">1</div><h3 data-i18n="step1">Тіркелу</h3><p data-i18n="step1_desc">Telegram арқылы тіркеліңіз</p></div>
+            <div class="step-card"><div class="step-number">2</div><h3 data-i18n="step2">Авто таңдау</h3><p data-i18n="step2_desc">Каталогтан таңдаңыз</p></div>
+            <div class="step-card"><div class="step-number">3</div><h3 data-i18n="step3">Броньдау</h3><p data-i18n="step3_desc">Күндерді белгілеңіз</p></div>
+            <div class="step-card"><div class="step-number">4</div><h3 data-i18n="step4">Жалдау</h3><p data-i18n="step4_desc">Сапар шегіңіз</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+    <div class="container">
+        <div class="section-title">
+            <span class="section-tag" data-i18n="contact">Байланыс</span>
+            <h2>Бізбен <span data-i18n="get_in_touch">хабарласыңыз</span></h2>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <div class="contact-item"><div class="contact-icon">📍</div><div class="contact-text"><h4 data-i18n="address">Мекен-жай</h4><p>Достық даңғылы 5, Алматы</p></div></div>
+                <div class="contact-item"><div class="contact-icon">📞</div><div class="contact-text"><h4 data-i18n="phone">Телефон</h4><p>+7 (727) 350-50-50</p></div></div>
+                <div class="contact-item"><div class="contact-icon">✉️</div><div class="contact-text"><h4 data-i18n="email">Email</h4><p>hello@luxdrive.kz</p></div></div>
+                <div class="contact-item"><div class="contact-icon">✈️</div><div class="contact-text"><h4 data-i18n="telegram">Telegram</h4><p>@LuxDriveKZ_bot</p></div></div>
+            </div>
+            <div class="contact-form">
+                <h3 style="margin-bottom:20px;" data-i18n="send_message">Хабарлама жіберу</h3>
+                <div class="form-group"><label data-i18n="name">Атыңыз</label><input type="text" id="contactName"></div>
+                <div class="form-group"><label data-i18n="email">Email</label><input type="email" id="contactEmail"></div>
+                <div class="form-group"><label data-i18n="message">Хабарлама</label><textarea id="contactMessage"></textarea></div>
+                <button class="btn" style="width:100%;" onclick="sendContact()" data-i18n="send">Жіберу</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-logo">LuxDrive <span>KZ</span></div>
+                <p class="footer-text" data-i18n="footer_text">Қазақстандағы премиум авто жалдау сервисі.</p>
+                <div class="social-links">
+                    <div class="social-link"><i class="fab fa-instagram"></i></div>
+                    <div class="social-link"><i class="fab fa-telegram"></i></div>
+                    <div class="social-link"><i class="fab fa-whatsapp"></i></div>
+                </div>
+            </div>
+            <div class="footer-col"><h4 data-i18n="services">Қызметтер</h4><ul><li><a data-i18n="car_rental">Авто жалдау</a></li><li><a data-i18n="transfer">Трансфер</a></li></ul></div>
+            <div class="footer-col"><h4 data-i18n="company">Компания</h4><ul><li><a data-i18n="about">Біз туралы</a></li><li><a data-i18n="blog">Блог</a></li></ul></div>
+            <div class="footer-col"><h4 data-i18n="support">Қолдау</h4><ul><li><a data-i18n="faq">FAQ</a></li><li><a data-i18n="privacy">Құпиялылық</a></li></ul></div>
+        </div>
+        <div class="footer-bottom">© 2025 LuxDrive KZ. <span data-i18n="rights">Барлық құқықтар қорғалған.</span></div>
+    </div>
+</footer>
+
+<!-- ===== AUTH MODAL ===== -->
+<div class="modal-overlay" id="authModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 id="authTitle" data-i18n="login">Кіру</h2>
+            <button class="modal-close" onclick="closeModal('authModal')">✕</button>
+        </div>
+        <div style="margin-bottom:20px;">
+            <button class="btn" style="width:100%;margin-bottom:15px;background:#229ED9;" onclick="telegramAuth()">
+                <i class="fab fa-telegram"></i> Telegram
+            </button>
+            <div style="text-align:center;color:var(--text-muted);margin:20px 0;" data-i18n="or">немесе</div>
+        </div>
+        <div class="form-group"><label data-i18n="email">Email</label><input type="email" id="authEmail"></div>
+        <div class="form-group"><label data-i18n="password">Пароль</label><input type="password" id="authPass"></div>
+        <button class="modal-btn" onclick="login()" data-i18n="login">Кіру</button>
+        <p style="text-align:center;margin-top:20px;"><span data-i18n="no_account">Аккаунтыңыз жоқ па?</span> <a href="#" onclick="switchAuth('register')" style="color:var(--gold);" data-i18n="register_link">Тіркелу</a></p>
+    </div>
+</div>
+
+<script>
+// ==================== TRANSLATIONS ====================
+const translations = {
+    kz: {
+        nav_catalog: 'Каталог', nav_loyalty: 'Лояльдылық', nav_how: 'Қалай жұмыс істейді', nav_contacts: 'Байланыс',
+        login: 'Кіру', register: 'Тіркелу',
+        hero_badge: 'Қазақстанның №1 жалдау сервисі',
+        hero_title: 'Лүкс автоны меншіксіз басқарыңыз',
+        hero_desc: '500+ премиум автомобиль. Telegram арқылы жылдам тіркелу.',
+        cars: 'Авто', clients: 'Клиент', rating: 'Рейтинг',
+        city: 'Қала', start_date: 'Басталу күні', end_date: 'Аяқталу күні', search: 'Іздеу',
+        catalog_title: 'Авто паркі', catalog_subtitle: 'каталогы', catalog_desc: 'Сізге арналған ең үздік автомобильдер',
+        all: 'Барлығы', sedan: 'Седан', suv: 'SUV', sport: 'Спорт', electric: 'Электро', minivan: 'Минивэн', accessible: '♿ Арнайы авто',
+        why_us: 'Неліктен біз?', advantages: 'артықшылықтар',
+        feature1: 'Telegram кіру', feature1_desc: '30 секундта тіркелу',
+        feature2: 'Мүмкіндігі шектеулілерге', feature2_desc: 'Пандус, қол басқару',
+        feature3: 'Фото тексеру', feature3_desc: '6 бөлікті суретке түсіру',
+        feature4: 'Лояльдылық', feature4_desc: '20% дейін жеңілдік',
+        loyalty: 'Лояльдылық', level: 'деңгейіңіз', loyalty_desc: 'Неғұрлым көп жалдасаңыз, соғұрлым көп жеңілдіктер аласыз',
+        base_price: 'Базалық баға', five_percent: '5% жеңілдік', priority: 'Басымды броньдау',
+        twelve_percent: '12% жеңілдік', free_delivery: 'Тегін жеткізу',
+        twenty_percent: '20% жеңілдік', no_deposit: 'Кепіл жоқ',
+        how_it_works: 'Қалай жұмыс істейді',
+        step1: 'Тіркелу', step1_desc: 'Telegram арқылы тіркеліңіз',
+        step2: 'Авто таңдау', step2_desc: 'Каталогтан таңдаңыз',
+        step3: 'Броньдау', step3_desc: 'Күндерді белгілеңіз',
+        step4: 'Жалдау', step4_desc: 'Сапар шегіңіз',
+        contact: 'Байланыс', get_in_touch: 'хабарласыңыз',
+        address: 'Мекен-жай', phone: 'Телефон', email: 'Email', telegram: 'Telegram',
+        send_message: 'Хабарлама жіберу', name: 'Атыңыз', message: 'Хабарлама', send: 'Жіберу',
+        footer_text: 'Қазақстандағы премиум авто жалдау сервисі.',
+        services: 'Қызметтер', car_rental: 'Авто жалдау', transfer: 'Трансфер',
+        company: 'Компания', about: 'Біз туралы', blog: 'Блог',
+        support: 'Қолдау', faq: 'FAQ', privacy: 'Құпиялылық',
+        rights: 'Барлық құқықтар қорғалған.',
+        no_account: 'Аккаунтыңыз жоқ па?', register_link: 'Тіркелу', password: 'Пароль', or: 'немесе'
+    },
+    ru: {
+        nav_catalog: 'Каталог', nav_loyalty: 'Лояльность', nav_how: 'Как работает', nav_contacts: 'Контакты',
+        login: 'Вход', register: 'Регистрация',
+        hero_badge: 'Сервис аренды №1 в Казахстане',
+        hero_title: 'Управляйте люкс авто без владения',
+        hero_desc: '500+ премиум автомобилей. Быстрая регистрация через Telegram.',
+        cars: 'Авто', clients: 'Клиенты', rating: 'Рейтинг',
+        city: 'Город', start_date: 'Дата начала', end_date: 'Дата окончания', search: 'Поиск',
+        catalog_title: 'Автопарк', catalog_subtitle: 'каталог', catalog_desc: 'Лучшие автомобили для вас',
+        all: 'Все', sedan: 'Седан', suv: 'Внедорожник', sport: 'Спорт', electric: 'Электро', minivan: 'Минивэн', accessible: '♿ Спецавто',
+        why_us: 'Почему мы?', advantages: 'преимущества',
+        feature1: 'Вход через Telegram', feature1_desc: 'Регистрация за 30 секунд',
+        feature2: 'Для людей с инвалидностью', feature2_desc: 'Пандус, ручное управление',
+        feature3: 'Фотоосмотр', feature3_desc: 'Фото 6 частей',
+        feature4: 'Лояльность', feature4_desc: 'Скидки до 20%',
+        loyalty: 'Лояльность', level: 'уровень', loyalty_desc: 'Чем больше арендуете, тем больше скидки',
+        base_price: 'Базовая цена', five_percent: 'Скидка 5%', priority: 'Приоритетное бронирование',
+        twelve_percent: 'Скидка 12%', free_delivery: 'Бесплатная доставка',
+        twenty_percent: 'Скидка 20%', no_deposit: 'Без залога',
+        how_it_works: 'Как работает',
+        step1: 'Регистрация', step1_desc: 'Зарегистрируйтесь через Telegram',
+        step2: 'Выбор авто', step2_desc: 'Выберите авто из каталога',
+        step3: 'Бронирование', step3_desc: 'Укажите даты',
+        step4: 'Аренда', step4_desc: 'Получите авто',
+        contact: 'Контакты', get_in_touch: 'свяжитесь',
+        address: 'Адрес', phone: 'Телефон', email: 'Email', telegram: 'Telegram',
+        send_message: 'Отправить сообщение', name: 'Ваше имя', message: 'Сообщение', send: 'Отправить',
+        footer_text: 'Премиум сервис аренды авто в Казахстане.',
+        services: 'Услуги', car_rental: 'Аренда авто', transfer: 'Трансфер',
+        company: 'Компания', about: 'О нас', blog: 'Блог',
+        support: 'Поддержка', faq: 'FAQ', privacy: 'Конфиденциальность',
+        rights: 'Все права защищены.',
+        no_account: 'Нет аккаунта?', register_link: 'Регистрация', password: 'Пароль', or: 'или'
+    },
+    en: {
+        nav_catalog: 'Catalog', nav_loyalty: 'Loyalty', nav_how: 'How it works', nav_contacts: 'Contacts',
+        login: 'Login', register: 'Register',
+        hero_badge: "Kazakhstan's #1 Rental Service",
+        hero_title: 'Drive luxury cars without ownership',
+        hero_desc: '500+ premium cars. Fast registration via Telegram.',
+        cars: 'Cars', clients: 'Clients', rating: 'Rating',
+        city: 'City', start_date: 'Start date', end_date: 'End date', search: 'Search',
+        catalog_title: 'Our Fleet', catalog_subtitle: 'catalog', catalog_desc: 'The best cars for you',
+        all: 'All', sedan: 'Sedan', suv: 'SUV', sport: 'Sport', electric: 'Electric', minivan: 'Minivan', accessible: '♿ Accessible',
+        why_us: 'Why us?', advantages: 'advantages',
+        feature1: 'Telegram login', feature1_desc: 'Register in 30 seconds',
+        feature2: 'Accessibility', feature2_desc: 'Ramp, hand controls',
+        feature3: 'Photo inspection', feature3_desc: '6 photos',
+        feature4: 'Loyalty', feature4_desc: 'Up to 20% discount',
+        loyalty: 'Loyalty', level: 'level', loyalty_desc: 'The more you rent, the more discounts you get',
+        base_price: 'Base price', five_percent: '5% discount', priority: 'Priority booking',
+        twelve_percent: '12% discount', free_delivery: 'Free delivery',
+        twenty_percent: '20% discount', no_deposit: 'No deposit',
+        how_it_works: 'How it works',
+        step1: 'Register', step1_desc: 'Register via Telegram',
+        step2: 'Choose car', step2_desc: 'Select from catalog',
+        step3: 'Book', step3_desc: 'Choose dates',
+        step4: 'Rent', step4_desc: 'Get the car',
+        contact: 'Contact', get_in_touch: 'get in touch',
+        address: 'Address', phone: 'Phone', email: 'Email', telegram: 'Telegram',
+        send_message: 'Send message', name: 'Your name', message: 'Message', send: 'Send',
+        footer_text: 'Premium car rental service in Kazakhstan.',
+        services: 'Services', car_rental: 'Car rental', transfer: 'Transfer',
+        company: 'Company', about: 'About us', blog: 'Blog',
+        support: 'Support', faq: 'FAQ', privacy: 'Privacy',
+        rights: 'All rights reserved.',
+        no_account: "Don't have an account?", register_link: 'Register', password: 'Password', or: 'or'
+    }
+};
+
+// ==================== STATE ====================
+let currentLang = 'kz';
+let currentUser = null;
+let cars = [];
+let currentSlide = 0;
+let slideInterval;
+let map = null;
+
+// ==================== API KEY ====================
+const API_KEY = '4458dab9-12b2-4462-aaad-95612013950b';
+
+// ==================== 10 ҚАЛАНЫҢ КООРДИНАТТАРЫ ====================
+const cities = {
+    "Алматы": [76.889709, 43.238949],
+    "Астана": [71.470356, 51.160522],
+    "Шымкент": [69.590103, 42.341684],
+    "Қарағанды": [73.087659, 49.806732],
+    "Ақтөбе": [57.205166, 50.297278],
+    "Тараз": [71.370529, 42.898788],
+    "Павлодар": [76.956543, 52.283340],
+    "Өскемен": [82.610415, 49.982924],
+    "Семей": [80.227959, 50.423345],
+    "Орал": [51.371429, 51.227172]
+};
+
+// ==================== CAR DATABASE ====================
+const carDatabase = [
+    // Алматы
+    {id:1,make:'Mercedes-Benz',model:'S-Class 580',year:2024,type:'sedan',seats:5,trans:'auto',fuel:'petrol',price:45000,location:'Алматы',lat:43.238949,lon:76.889709,rating:4.9,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-mercedes-benz-s-classmercedes-benzs-classsedanmercedes-benz-s-class-1701529359209k6iht.png'},
+    {id:2,make:'BMW',model:'7 Series',year:2023,type:'sedan',seats:5,trans:'auto',fuel:'petrol',price:38000,location:'Алматы',lat:43.256789,lon:76.928456,rating:4.8,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-bmw-7-seriesbmw-7-seriesbmw-7-series-sedanbmw-luxury-car-1701529360164bamsc.png'},
+    
+    // Астана
+    {id:3,make:'Audi',model:'A8 L',year:2024,type:'sedan',seats:5,trans:'auto',fuel:'petrol',price:42000,location:'Астана',lat:51.160522,lon:71.470356,rating:4.9,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-audi-a8audia8limousineexecutive-carluxury-car-1701529360299wltis.png'},
+    {id:4,make:'Porsche',model:'Cayenne',year:2023,type:'suv',seats:5,trans:'auto',fuel:'petrol',price:52000,location:'Астана',lat:51.127890,lon:71.445678,rating:5.0,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-porsche-cayenneporsche-cayennesuvporsche-gts-1701529358933p0kwl.png'},
+    
+    // Шымкент
+    {id:5,make:'Genesis',model:'G90',year:2024,type:'sedan',seats:5,trans:'auto',fuel:'petrol',price:35000,location:'Шымкент',lat:42.341684,lon:69.590103,rating:4.7,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-genesis-g90genesisg90luxury-carsedan-1701529360232wtzbt.png'},
+    {id:6,make:'Hyundai',model:'Staria',year:2023,type:'minivan',seats:9,trans:'auto',fuel:'diesel',price:25000,location:'Шымкент',lat:42.312345,lon:69.578901,rating:4.6,a11y:true,image:'https://purepng.com/public/uploads/large/purepng.com-hyundai-stariahyundaistariampvminivancar-1701529360390xcvbn.png'},
+    
+    // Қарағанды
+    {id:7,make:'Toyota',model:'Camry 75',year:2023,type:'sedan',seats:5,trans:'auto',fuel:'petrol',price:22000,location:'Қарағанды',lat:49.806732,lon:73.087659,rating:4.5,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-toyota-camrytoyotacamryjapanesecar-1701529359845fhdj6.png'},
+    {id:8,make:'Kia',model:'K5',year:2024,type:'sedan',seats:5,trans:'auto',fuel:'petrol',price:20000,location:'Қарағанды',lat:49.796732,lon:73.077659,rating:4.4,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-kia-k5kiak5sedan-1701529360053dgjh5.png'},
+    
+    // Ақтөбе
+    {id:9,make:'Chevrolet',model:'Tahoe',year:2023,type:'suv',seats:7,trans:'auto',fuel:'petrol',price:35000,location:'Ақтөбе',lat:50.297278,lon:57.205166,rating:4.6,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-chevrolet-tahoegenerationsuv-1701529359123fghj7.png'},
+    {id:10,make:'Volkswagen',model:'Multivan',year:2024,type:'minivan',seats:7,trans:'auto',fuel:'diesel',price:28000,location:'Ақтөбе',lat:50.287278,lon:57.195166,rating:4.5,a11y:true,image:'https://purepng.com/public/uploads/large/purepng.com-volkswagen-multivanvolkswagenmultivanmpvminivan-1701529360412asdfg.png'},
+    
+    // Тараз
+    {id:11,make:'Mazda',model:'CX-9',year:2023,type:'suv',seats:7,trans:'auto',fuel:'petrol',price:27000,location:'Тараз',lat:42.898788,lon:71.370529,rating:4.5,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-mazda-cx-9mazdacx-9suvcrossover-1701529359831zxcv6.png'},
+    {id:12,make:'Honda',model:'Accord',year:2024,type:'sedan',seats:5,trans:'auto',fuel:'petrol',price:20000,location:'Тараз',lat:42.888788,lon:71.360529,rating:4.4,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-honda-accordhondaaccordjapanesesedan-1701529359782qwer5.png'},
+    
+    // Павлодар
+    {id:13,make:'Nissan',model:'Patrol',year:2023,type:'suv',seats:7,trans:'auto',fuel:'petrol',price:40000,location:'Павлодар',lat:52.283340,lon:76.956543,rating:4.7,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-nissan-patrolnissanpatrolsuvjapanese-1701529359976tyui8.png'},
+    {id:14,make:'Mitsubishi',model:'Pajero',year:2023,type:'suv',seats:7,trans:'auto',fuel:'diesel',price:30000,location:'Павлодар',lat:52.273340,lon:76.946543,rating:4.5,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-mitsubishi-pajero-sportmitsubishipajero-sportsuvjapanese-1701529360031hjkl9.png'},
+    
+    // Өскемен
+    {id:15,make:'Lexus',model:'RX350',year:2024,type:'suv',seats:5,trans:'auto',fuel:'petrol',price:38000,location:'Өскемен',lat:49.982924,lon:82.610415,rating:4.8,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-lexus-rx-350lexusrx350suvjapanese-1701529360213bnm0.png'},
+    {id:16,make:'Toyota',model:'Land Cruiser',year:2023,type:'suv',seats:7,trans:'auto',fuel:'diesel',price:45000,location:'Өскемен',lat:49.972924,lon:82.600415,rating:4.9,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-toyota-land-cruiser-pradoland-cruiser-pradatoyotasuvjapanese-1701529360024vbn1.png'},
+    
+    // Семей
+    {id:17,make:'BMW',model:'X5',year:2024,type:'suv',seats:5,trans:'auto',fuel:'petrol',price:40000,location:'Семей',lat:50.423345,lon:80.227959,rating:4.7,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-bmw-x5bmwx5suvgerman-1701529359108qwe2.png'},
+    {id:18,make:'Audi',model:'Q7',year:2023,type:'suv',seats:7,trans:'auto',fuel:'petrol',price:42000,location:'Семей',lat:50.413345,lon:80.217959,rating:4.7,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-audi-q7audiq7suvgerman-1701529359012rty3.png'},
+    
+    // Орал
+    {id:19,make:'Porsche',model:'Macan',year:2024,type:'suv',seats:5,trans:'auto',fuel:'petrol',price:38000,location:'Орал',lat:51.227172,lon:51.371429,rating:4.6,a11y:false,image:'https://purepng.com/public/uploads/large/purepng.com-porsche-macanporschemacansuvgerman-1701529359543uio4.png'},
+    {id:20,make:'Volvo',model:'XC90',year:2023,type:'suv',seats:7,trans:'auto',fuel:'hybrid',price:35000,location:'Орал',lat:51.217172,lon:51.361429,rating:4.5,a11y:true,image:'https://purepng.com/public/uploads/large/purepng.com-volvo-xc90volvoxc90suvswedish-1701529360365pas5.png'}
+];
+
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', function() {
+    cars = carDatabase;
+    renderCars(cars);
+    startCarousel();
+    setupDates();
+    checkAuth();
+    applyTranslations();
+    initMap();
+});
+
+// ==================== 2GIS MAP ====================
+function initMap() {
+    try {
+        map = new mapgl.Map('mapContainer', {
+            center: [71.0, 48.0], // Қазақстанның ортасы
+            zoom: 5,
+            key: API_KEY, // Сіздің API кілтіңіз
+            style: 'c045d87c-d697-45aa-a57a-fba553477be2'
+        });
+        
+        map.on('load', function() {
+            // Барлық қалаларды шеңбермен белгілеу
+            Object.entries(cities).forEach(([cityName, coords]) => {
+                new mapgl.Circle(map, {
+                    coordinates: coords,
+                    radius: 20000, // 20 км
+                    color: '#F2C94C',
+                    opacity: 0.1,
+                    strokeColor: '#F2C94C',
+                    strokeWidth: 2,
+                    strokeOpacity: 0.5
+                });
+            });
+            
+            // Барлық автомобильдерге маркер қосу
+            cars.forEach(car => {
+                addCarMarker(car);
+            });
+            
+            console.log('✅ 2GIS картасы жүктелді! 10 қала, 20+ авто');
+        });
+    } catch(e) {
+        console.log('2GIS map error:', e);
+    }
+}
+
+function addCarMarker(car) {
+    if(!map) return;
+    
+    const marker = new mapgl.Marker(map, {
+        coordinates: [car.lon, car.lat],
+        html: `
+            <div style="
+                background: ${car.a11y ? '#F2C94C' : '#FF6B6B'};
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 3px solid white;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+                cursor: pointer;
+                transition: transform 0.3s;
+            " 
+            onmouseover="this.style.transform='scale(1.1)'" 
+            onmouseout="this.style.transform='scale(1)'">
+                ${car.a11y ? '♿' : '🚗'}
+            </div>
+        `
+    });
+    
+    const popup = new mapgl.Popup(map, {
+        coordinates: [car.lon, car.lat],
+        content: `
+            <div class="map-popup">
+                <h4>${car.make} ${car.model}</h4>
+                <p>📍 ${car.location}</p>
+                <p class="price">₸${car.price.toLocaleString()}/тәу</p>
+                <p>⭐ ${car.rating}</p>
+                ${car.a11y ? '<p style="color:#F2C94C;">♿ Арнайы авто</p>' : ''}
+            </div>
+        `
+    });
+    
+    marker.on('click', () => popup.open());
+}
+
+// ==================== CAROUSEL ====================
+function startCarousel() {
+    if(slideInterval) clearInterval(slideInterval);
+    slideInterval = setInterval(() => {
+        let next = (currentSlide + 1) % 5;
+        slideTo(next);
+    }, 4000);
+}
+
+function slideTo(index) {
+    document.querySelectorAll('.carousel-item').forEach(item => item.classList.remove('active'));
+    document.querySelectorAll('.indicator').forEach(ind => ind.classList.remove('active'));
+    document.querySelectorAll('.carousel-item')[index].classList.add('active');
+    document.querySelectorAll('.indicator')[index].classList.add('active');
+    currentSlide = index;
+}
+
+// ==================== RENDER CARS ====================
+function renderCars(carsToRender) {
+    const grid = document.getElementById('carsGrid');
+    let html = '';
+    
+    carsToRender.forEach(car => {
+        const a11yBadge = car.a11y ? '<span class="car-badge-item gold">♿</span>' : '';
+        html += `
+        <div class="car-card" onclick="openRentModal(${car.id})">
+            <div class="car-image">
+                <img src="${car.image}" alt="${car.make} ${car.model}" loading="lazy">
+                <div class="car-badges">
+                    <span class="car-badge-item">${car.year}</span>
+                    ${a11yBadge}
+                </div>
+                <div class="car-fav" onclick="event.stopPropagation();toggleFav(${car.id})">🤍</div>
+            </div>
+            <div class="car-info">
+                <div class="car-title">${car.make} ${car.model}</div>
+                <div class="car-subtitle">${car.location}</div>
+                <div class="car-specs">
+                    <div class="spec-item"><span class="spec-value">${car.seats}</span><span class="spec-label">Орын</span></div>
+                    <div class="spec-item"><span class="spec-value">${car.trans === 'auto' ? 'Авто' : 'Мех'}</span><span class="spec-label">КПП</span></div>
+                    <div class="spec-item"><span class="spec-value">${car.rating}★</span><span class="spec-label">Рейтинг</span></div>
+                </div>
+                <div class="car-footer">
+                    <div class="car-price">₸${car.price.toLocaleString()}<small>/тәу</small></div>
+                    <button class="car-btn" data-i18n="btn_rent">Жалдау</button>
+                </div>
+            </div>
+        </div>`;
+    });
+    
+    grid.innerHTML = html;
+    applyTranslations();
+}
+
+// ==================== FILTER CARS ====================
+function filterCars(type, btn) {
+    document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+    btn.classList.add('active');
+    
+    let filtered = [];
+    if(type === 'all') {
+        filtered = cars;
+    } else if(type === 'accessible') {
+        filtered = cars.filter(car => car.a11y === true);
+    } else {
+        filtered = cars.filter(car => car.type === type);
+    }
+    
+    renderCars(filtered);
+}
+
+// ==================== TRANSLATION FUNCTIONS ====================
+function changeLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    applyTranslations();
+}
+
+function applyTranslations() {
+    const trans = translations[currentLang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if(trans[key]) {
+            if(el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                el.placeholder = trans[key];
+            } else {
+                el.textContent = trans[key];
+            }
+        }
+    });
+}
+
+// ==================== SPEECH FUNCTIONS ====================
+function speakSelectedText() {
+    let selectedText = window.getSelection().toString().trim();
+    
+    if(!selectedText) {
+        const sections = document.querySelectorAll('section');
+        let currentSection = sections[0];
+        
+        for(let section of sections) {
+            const rect = section.getBoundingClientRect();
+            if(rect.top <= 100 && rect.bottom >= 100) {
+                currentSection = section;
+                break;
+            }
+        }
+        
+        selectedText = currentSection.querySelector('h2')?.textContent || 'LuxDrive KZ';
+    }
+    
+    if(window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+    }
+    
+    const utterance = new SpeechSynthesisUtterance(selectedText);
+    utterance.lang = currentLang === 'kz' ? 'kk-KZ' : currentLang === 'ru' ? 'ru-RU' : 'en-US';
+    utterance.rate = 1.2;
+    window.speechSynthesis.speak(utterance);
+}
+
+// ==================== ACCESSIBILITY FUNCTIONS ====================
+function toggleLargeText() {
+    document.body.classList.toggle('large-text');
+    document.getElementById('a11yLargeText').classList.toggle('active');
+    localStorage.setItem('a11y_largeText', document.body.classList.contains('large-text'));
+}
+
+function toggleHighContrast() {
+    document.body.classList.toggle('high-contrast');
+    document.getElementById('a11yContrast').classList.toggle('active');
+    localStorage.setItem('a11y_highContrast', document.body.classList.contains('high-contrast'));
+}
+
+function toggleReduceMotion() {
+    document.body.classList.toggle('reduce-motion');
+    document.getElementById('a11yMotion').classList.toggle('active');
+    localStorage.setItem('a11y_reduceMotion', document.body.classList.contains('reduce-motion'));
+}
+
+// ==================== SCROLL FUNCTIONS ====================
+function scrollToSection(sectionId) {
+    const element = document.getElementById(sectionId);
+    if(element) element.scrollIntoView({behavior: 'smooth'});
+}
+
+function scrollToTop() {
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ==================== AUTH ====================
+function openAuthModal(mode) {
+    document.getElementById('authTitle').textContent = mode === 'login' ? 
+        (currentLang === 'kz' ? 'Кіру' : currentLang === 'ru' ? 'Вход' : 'Login') : 
+        (currentLang === 'kz' ? 'Тіркелу' : currentLang === 'ru' ? 'Регистрация' : 'Register');
+    document.getElementById('authModal').classList.add('active');
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove('active');
+}
+
+function telegramAuth() {
+    window.open('https://t.me/LuxDriveKZ_bot', '_blank');
+}
+
+function login() {
+    currentUser = {name:'Алибек', role:'client'};
+    document.getElementById('authButtons').style.display = 'none';
+    document.getElementById('userMenu').style.display = 'block';
+    document.getElementById('userName').textContent = 'Алибек И.';
+    closeModal('authModal');
+}
+
+function logout() {
+    currentUser = null;
+    document.getElementById('authButtons').style.display = 'flex';
+    document.getElementById('userMenu').style.display = 'none';
+    document.getElementById('userDropdown').classList.remove('show');
+}
+
+function checkAuth() {
+    if(localStorage.getItem('token')) {
+        currentUser = JSON.parse(localStorage.getItem('user'));
+        document.getElementById('authButtons').style.display = 'none';
+        document.getElementById('userMenu').style.display = 'block';
+        document.getElementById('userName').textContent = currentUser?.name || 'Пайдаланушы';
+    }
+}
+
+function toggleDropdown() {
+    document.getElementById('userDropdown').classList.toggle('show');
+}
+
+// ==================== RENT ====================
+function openRentModal(carId) {
+    if(!currentUser) {
+        openAuthModal('login');
+        return;
+    }
+    alert(currentLang === 'kz' ? 'Броньдау модалы ашылады (демо)' : 
+          currentLang === 'ru' ? 'Модал бронирования (демо)' : 
+          'Rent modal opens (demo)');
+}
+
+function toggleFav(carId) {
+    alert(currentLang === 'kz' ? 'Таңдаулыларға қосылды' : 
+          currentLang === 'ru' ? 'Добавлено в избранное' : 
+          'Added to favorites');
+}
+
+// ==================== UTILS ====================
+function setupDates() {
+    const today = new Date().toISOString().split('T')[0];
+    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+    document.getElementById('searchStart').value = today;
+    document.getElementById('searchEnd').value = tomorrow;
+}
+
+function searchCars() {
+    const city = document.getElementById('searchCity').value.toLowerCase();
+    if(city) {
+        const filtered = cars.filter(car => car.location.toLowerCase().includes(city));
+        renderCars(filtered);
+    } else {
+        renderCars(cars);
+    }
+    scrollToSection('catalog');
+}
+
+function openDashboard() {
+    alert('Кабинет (демо)');
+    document.getElementById('userDropdown').classList.remove('show');
+}
+
+function openAddCar() {
+    alert('Авто қосу (демо)');
+    document.getElementById('userDropdown').classList.remove('show');
+}
+
+function sendContact() {
+    const name = document.getElementById('contactName').value;
+    const email = document.getElementById('contactEmail').value;
+    const message = document.getElementById('contactMessage').value;
+    
+    if(name && email && message) {
+        alert('Хабарлама жіберілді!');
+        document.getElementById('contactName').value = '';
+        document.getElementById('contactEmail').value = '';
+        document.getElementById('contactMessage').value = '';
+    } else {
+        alert('Барлық өрістерді толтырыңыз');
+    }
+}
+
+// Click outside dropdown
+document.addEventListener('click', function(e) {
+    if(!e.target.closest('.user-menu')) {
+        document.getElementById('userDropdown')?.classList.remove('show');
+    }
+});
+</script>
+</body>
+</html>
